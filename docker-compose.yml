@@ -6,12 +6,12 @@ services:
     # Use host networking for DNS (port 53)
     network_mode: host
     environment:
-      - TZ=America/Sao_Paulo
-      - FTLCONF_webserver_api_password=changeme
-      # - FTLCONF_webserver_domain=pihole.yourdomain.com -- If you plan to have a custom domain for the web interface
-      - FTLCONF_LOCAL_IPV4=127.0.0.1 # change me
-      - FTLCONF_dns_upstreams=127.0.0.1#5335;127.0.0.1#5335
-      - FTLCONF_webserver_port=8081 # change me optionally
+      TZ: ${TIMEZONE}
+      FTLCONF_webserver_api_password: ${WEBPASSWORD}
+      # FTLCONF_webserver_domain=pihole.yourdomain.com -- If you plan to have a custom domain for the web interface
+      FTLCONF_LOCAL_IPV4: ${HOST_IPV4_ADDRESS} # change me
+      FTLCONF_dns_upstreams: ${DNS_UPSTREAMS}
+      FTLCONF_webserver_port: ${WEBPORT} # change me optionally
     volumes:
       - ./etc-pihole:/etc/pihole
       - ./etc-dnsmasq.d:/etc/dnsmasq.d
