@@ -3,15 +3,14 @@ services:
     image: pihole/pihole:2025.11.1
     container_name: pihole
     restart: unless-stopped
-    # Use host networking for DNS (port 53)
     network_mode: host
     environment:
       TZ: ${TIMEZONE}
       FTLCONF_webserver_api_password: ${WEBPASSWORD}
-      # FTLCONF_webserver_domain=pihole.yourdomain.com -- If you plan to have a custom domain for the web interface
-      FTLCONF_LOCAL_IPV4: ${HOST_IPV4_ADDRESS} # change me
+      # FTLCONF_webserver_domain=pihole.yourdomain.com -- custom domain
+      FTLCONF_LOCAL_IPV4: ${HOST_IPV4_ADDRESS} 
       FTLCONF_dns_upstreams: ${DNS_UPSTREAMS}
-      FTLCONF_webserver_port: ${WEBPORT} # change me optionally
+      FTLCONF_webserver_port: ${WEBPORT}
     volumes:
       - ./etc-pihole:/etc/pihole
       - ./etc-dnsmasq.d:/etc/dnsmasq.d
@@ -21,7 +20,6 @@ services:
     image: alpinelinux/unbound:latest
     container_name: unbound
     restart: unless-stopped
-    # Share Pi-hole's network stack
     network_mode: service:pihole
     volumes:
       - ./unbound/unbound.conf:/etc/unbound/unbound.conf:ro
